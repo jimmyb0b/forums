@@ -44,7 +44,7 @@ app.post('/forums', function(req, res){
 
 
 app.get('/forums/:id', function(req, res){
-	db.all('SELECT forums.forum_title AS f_title, forums.forum_content AS f_content, comments.comment_content AS c_conetent FROM forums LEFT JOIN comments on forums.id = comments.forum_id WHERE forums.id=?', req.params.id, function(err, rows){
+	db.all('SELECT forums.forum_title AS f_title, forums.forum_content AS f_content, comments.comment_content AS c_conetent, forums.id AS f_id FROM forums LEFT JOIN comments on forums.id = comments.forum_id WHERE forums.id=?', req.params.id, function(err, rows){
 		if (err){
 			throw err
 		}else {
@@ -65,11 +65,13 @@ app.delete('/forums/:id', function(req, res){
 
 
 app.post('/comments', function(req, res){
-	db.run('INSERT INTO comments (forum_id, comment_content) VALUES (?,?)', req.params.id, req.body.comment, function(err){
+	var id = parseInt(req.body.f_id)
+	db.run('INSERT INTO comments (forum_id, comment_content) VALUES (?,?)', id, req.body.comment, function(err){
+		console.log(req.body.f_id)
 		if (err){
 			throw err
 		}else {
-			res.redirect('/forums')
+			res.redirect('/forums/'+id)
 		}
 	})
 })
