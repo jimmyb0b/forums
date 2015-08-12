@@ -13,26 +13,50 @@ app.use(methodOverride('_method'))
 app.set('views_engine', 'ejs')
 
 
-
-app.get('/forums', function (req, res){
-	//// show all forum posts
+app.get('/', function(req, res){
+	res.redirect('/forums')
 })
 
-app.get('/forums/new' function(req,res){
-	//// now post form
+
+app.get('/forums', function (req, res){
+	db.all('SELECT * FROM forums', function(err, rows){
+		if (err){
+			throw err
+		}else{
+			res.render('index.ejs', {data: rows})			
+		}
+	})
+})
+
+app.get('/forums/new', function(req,res){
+	res.render('new.ejs')
 })
 
 app.post('/forums', function(req, res){
-	//// add new post to db
+	db.run('INSERT INTO forums (forum_title, forum_content) VALUES (?,?)', req.body.title, req.body.content, function(err){
+		if (err){
+			throw err
+		}else 
+			res.redirect('/forums')
+	})
 })
 
+
 app.get('/forums/:id', function(req, res){
-	//// display a forum post
+	db.all('SELECT * FROM forums WHERE id=?', req.params.id, function(err, rows){
+		if (err){
+			throw err
+		}else {
+			res.render('show.ejs', {data:rows})
+		}
+	})
 })
+
 
 app.put('/forums/:id', function(req, res){
 	//// update post... maybe
 })
+
 
 app.delete('/forums/:id', function(req, res){
 	//// delete that post
@@ -42,6 +66,19 @@ app.delete('/forums/:id', function(req, res){
 
 
 
+
+
+
+
+
+
 app.listen(3000, function(){
 	console.log('listening on 3-thou')
 })
+
+
+
+
+
+
+

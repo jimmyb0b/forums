@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Forum list</title>
+</head>
+<body>
+	<a href="/forums/new">Create a new thread</a>
+	<br>
+	
+	<%Object.keys(data).forEach(function(key){ %>
+		<h2>
+		<a href="/forums/<%=data[key].id%>">
+			<%= data[key].forum_title%>
+		</a>
+		</h2> 
+		<h5>Posted by:</h5>
+	<br>
+	<% }) %>
+
+</body>
+</html>
