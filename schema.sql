@@ -5,7 +5,8 @@ DROP TABLE IF EXISTS comments;
 CREATE TABLE users(
 	id INTEGER PRIMARY KEY,
 	user_name TEXT,
-	photo_url TEXT
+	photo_url TEXT,
+	UNIQUE (user_name)
 	);
 
 CREATE TABLE forums(
@@ -22,9 +23,10 @@ CREATE TABLE comments(
 	user_id INTEGER,
 	forum_id INTEGER,
 	comment_content TEXT,
-	time_submitted TIMESTAMP,
+	time_submitted CURRENT_TIMESTAMP,
 	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (forum_id) REFERENCES forums(id)
 	);
+
 
 PRAGMA foriegn_keys = ON;

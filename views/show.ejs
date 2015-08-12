@@ -3,17 +3,39 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Forum Page</title>
+	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+	<link rel="stylesheet" href="/style.css">
+
+
 </head>
 <body>
+
 	<%Object.keys(data).forEach(function(key){ %>
-		<h2><%= data[key].forum_title %></h2>
+		<h2><%= data[key].f_title %></h2>
 		<h5>Posted by: </h5>
-		<p><%= data[key].forum_content %></p>
-		
+		<p><%= data[key].f_content %></p>
+	<% }) %>
+
+<br><br>
+
+	<form action="/comments" method="POST" class="pure-form pure-form-aligned">
+		<fieldset>
+			<div class="pure-control-group">
+				<label for="comment">Comment</label>
+				<input type=" text" name="comment" placeholder="Comment">
+			</div>
+			<br><br>
+			<button type="submit" class="pure-button pure-button-primary">Submit</button>
+		</fieldset>
+	</form>  
+
+<br><br><br>
+<h3>Commments</h3>
+	<%Object.keys(data).forEach(function(key2){ %>
+		<p><%=data[key2].c_content%></p>
 
 
 	<% }) %>
 
-	
 </body>
 </html>

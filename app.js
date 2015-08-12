@@ -11,6 +11,7 @@ var db = new sqlite3.Database('forums.db')
 app.use(urlencodedBodyParser)
 app.use(methodOverride('_method'))
 app.set('views_engine', 'ejs')
+app.use(express.static(__dirname + '/views'))
 
 
 app.get('/', function(req, res){
@@ -43,7 +44,7 @@ app.post('/forums', function(req, res){
 
 
 app.get('/forums/:id', function(req, res){
-	db.all('SELECT * FROM forums WHERE id=?', req.params.id, function(err, rows){
+	db.all('SELECT forums.forum_title AS f_title, forums.forum_content AS f_content, comments.comment_content AS c_conetent FROM forums LEFT JOIN comments on forums.id = comments.forum_id WHERE forums.id=?', req.params.id, function(err, rows){
 		if (err){
 			throw err
 		}else {
@@ -59,11 +60,19 @@ app.put('/forums/:id', function(req, res){
 
 
 app.delete('/forums/:id', function(req, res){
-	//// delete that post
+	//// delete that post super user power
 })
 
 
-
+app.post('/comments', function(req, res){
+	db.run('INSERT INTO comments (forum_id, comment_content) VALUES (?,?)', req.params.id, req.body.comment, function(err){
+		if (err){
+			throw err
+		}else {
+			res.redirect('/forums')
+		}
+	})
+})
 
 
 
