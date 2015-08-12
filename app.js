@@ -44,7 +44,7 @@ app.post('/forums', function(req, res){
 
 
 app.get('/forums/:id', function(req, res){
-	db.all('SELECT forums.forum_title AS f_title, forums.forum_content AS f_content, comments.comment_content AS c_conetent, forums.id AS f_id FROM forums LEFT JOIN comments on forums.id = comments.forum_id WHERE forums.id=?', req.params.id, function(err, rows){
+	db.all('SELECT forums.forum_title AS f_title, forums.forum_content AS f_content, comments.comment_content AS c_content, forums.id AS f_id FROM forums JOIN comments on forums.id = comments.forum_id WHERE forums.id=?', req.params.id, function(err, rows){
 		if (err){
 			throw err
 		}else {

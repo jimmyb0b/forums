@@ -10,10 +10,10 @@
 </head>
 <body>
 
-	<%Object.keys(data).forEach(function(key){ %>
-		<h2><%= data[key].f_title %></h2>
-		<h5>Posted by: </h5>
-		<p><%= data[key].f_content %></p>
+	
+		<h2><%= data[0].f_title %></h2>
+		<h5>Created by: </h5>
+		<p><%= data[0].f_content %></p>
 <br><br>
 			<form action="/comments" method="POST" class="pure-form pure-form-aligned">
 				<fieldset>
@@ -21,22 +21,26 @@
 						<label for="comment">Comment</label>
 						<input type=" text" name="comment" placeholder="Comment">
 					</div>
-					<input class="hidden" type="text" name="f_id" value="<%data[key].f_id%>">
+					<input class="hidden" type="text" name="f_id" value="<%=data[0].f_id%>">
 					<br><br>
 					<button type="submit" class="pure-button pure-button-primary">Submit</button>
 				</fieldset>
 			</form>  
-	<% }) %>
+	
 
 
 
 <br><br><br>
 <h3>Commments</h3>
-	<%Object.keys(data).forEach(function(key2){ %>
-		<p><%=data[key2].c_content%></p>
-
+	<%data.forEach(function(comment){ %>
+		<p><%=comment.c_content%></p>
+		<p>*commenter*</p>
+		<br>
 
 	<% }) %>
+
+	<br><br>
+	<a href="/forums">Back to forums list</a>
 
 </body>
 </html>
