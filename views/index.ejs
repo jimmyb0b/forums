@@ -27,13 +27,14 @@
 	
 	<%Object.keys(data).forEach(function(key){ %>
 		<h2>
-		<a href="/forums/<%=data[key].id%>">
+		<a href="/forums/<%=data[key].forum_id%>">
 			<%= data[key].forum_title%>
 		</a>
 		</h2> 
 		<h5>Posted by:</h5>
+		<h5>Comment Count: <%= data[key].count %></h5>
 	<br>
 	<% }) %>
-
+	<a name="bottom"></a>
 </body>
 </html>

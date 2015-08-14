@@ -3,23 +3,25 @@ DROP TABLE IF EXISTS forums;
 DROP TABLE IF EXISTS comments;
 
 CREATE TABLE users(
-	id INTEGER PRIMARY KEY,
+	user_id INTEGER PRIMARY KEY,
 	user_name TEXT,
+	password TEXT,
 	photo_url TEXT,
 	UNIQUE (user_name)
 	);
 
 CREATE TABLE forums(
-	id INTEGER PRIMARY KEY,
+	forum_id INTEGER PRIMARY KEY,
 	user_id INTEGER,
 	forum_title TEXT,
 	forum_content TEXT,
 	up_vote INTEGER,
+	comment_count INTEGER,
 	FOREIGN KEY (user_id) REFERENCES users(id)
 	);
 
 CREATE TABLE comments(
-	id INTEGER PRIMARY KEY,
+	comment_id INTEGER PRIMARY KEY,
 	user_id INTEGER,
 	forum_id INTEGER,
 	comment_content TEXT,
@@ -29,4 +31,4 @@ CREATE TABLE comments(
 	);
 
 
-PRAGMA foriegn_keys = ON;
+PRAGMA foreign_keys = ON;

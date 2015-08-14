@@ -23,17 +23,26 @@
 	<br><br>
 
 
-		<h2><%= data[0].f_title %></h2>
-		<h5>Created by: </h5>
-		<p><%= data[0].f_content %></p>
+		<h2><%= data[0].forum_title %></h2>
+		<h5>Created by: <%= data[0].user_name %> </h5>
+		<p><%= data[0].forum_content %></p>
 <br><br>
 			<form action="/comments" method="POST" class="pure-form pure-form-aligned">
 				<fieldset>
 					<div class="pure-control-group">
-						<label for="comment">Comment</label>
-						<input type=" text" name="comment" placeholder="Comment">
+						<label for="user">User Name</label>
+						<input type=" text" name="user" placeholder="User Name">
 					</div>
-					<input class="hidden" type="text" name="f_id" value="<%=data[0].f_id%>">
+					<div class="pure-control-group">
+						<label for="password">Password</label>
+						<input type="password" name="password" placeholder="Password">
+					</div>
+					<br>
+					<div class="pure-control-group">
+						<label for="comment">Comment</label>
+						<textarea name="comment" placeholder="Comment"></textarea>
+					</div>
+					<input class="hidden" type="text" name="f_id" value="<%=data.forum_id%>">
 					<br><br>
 					<button type="submit" class="pure-button pure-button-primary">Submit</button>
 				</fieldset>
@@ -43,16 +52,16 @@
 
 
 <br><br><br>
-<h3>Commments</h3>
-	<%data.forEach(function(comment){ %>
+<h3>Commments: <%= count.count %></h3>
+	<%comments.forEach(function(comment){ %>
 		<p><%=comment.c_content%></p>
-		<p>*commenter*</p>
+		<p> <%= comment.name %> </p>
 		<br>
 
 	<% }) %>
 
 	<br><br>
 	<a href="/forums">Back to forums list</a>
-
+	<a name="bottom"></a>
 </body>
 </html>
