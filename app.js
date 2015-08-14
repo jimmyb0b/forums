@@ -100,21 +100,33 @@ app.delete('/forums/:id', function(req, res){
 //// post comments to db
 app.post('/comments', function(req, res){
 	var id = parseInt(req.body.forum_id)
-	//console.log(id)
 
-		db.run('INSERT INTO users (user_name, password) VALUES (?,?)',req.body.user, req.body.password, function(err){
-			if (err){
-				res.redirect('/forums/'+id)
+//// check if user/password exist
+	db.get('select * from users where user_name = ? AND password = ?', req.body.user, req.body.password, function(err, name){
+			console.log(name)
+			if (name === undefined){
+				db.run('INSERT INTO users (user_name, password) VALUES (?,?)',req.body.user, req.body.password, function(err){
+					if (err){
+						throw err
+					}else{
+						db.run('INSERT into comments (forum_id, comment_content, user_id) VALUES (?,?,?)', id, req.body.comment, this.lastID, function(err){
+							if (err){
+								throw err
+							} else {
+								res.redirect('/forums/'+id+'#bottom')
+							}
+						})
+					}
+				})
 			}else{
-
-				db.run('INSERT INTO comments (forum_id, comment_content, user_id) VALUES (?,?,?)', id, req.body.comment, this.lastID, function(err){
+				db.run('INSERT INTO comments (forum_id, comment_content, user_id) VALUES (?,?,?)', id, req.body.comment, name.user_id, function(err){
 					if (err){
 						throw err
 
-		}else { 
-			res.redirect('/forums/'+id+'#bottom')
+					}else { 
+						res.redirect('/forums/'+id+'#bottom')
 				}
-		})
+			})
 		}
 	})
 })
@@ -148,7 +160,7 @@ app.post('/vote', function(req, res){
 
 
 ///// *** TO DO *** //////
-///// if statements for when a user name/password already exist
+//// css this bitch
 
 
 
