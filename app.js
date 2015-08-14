@@ -40,49 +40,82 @@ app.get('/forums/new', function(req,res){
 })
 
 
-//// post new forum to db
-app.post('/forums', function(req, res){
-	db.run('INSERT INTO users (user_name, password) VALUES (?,?)', req.body.user, req.body.password, function(err){
-			if (err){
-				res.redirect('/forums/new/#alert')
-			}else{
+// //// post new forum to db
+// app.post('/forums', function(req, res){
+// 	db.run('INSERT INTO users (user_name, password) VALUES (?,?)', req.body.user, req.body.password, function(err){
+// 			if (err){
+// 				res.redirect('/forums/new/#alert')
+// 			}else{
 
-				db.run('INSERT INTO forums (forum_title, forum_content, user_id) VALUES (?,?,?)', req.body.title, req.body.content, this.lastID, function(err){
+// 				db.run('INSERT INTO forums (forum_title, forum_content, user_id) VALUES (?,?,?)', req.body.title, req.body.content, this.lastID, function(err){
+// 					if (err){
+// 						throw err
+// 					}else {
+// 						res.redirect('/forums')
+// 					}	
+// 			})
+// 		}		
+// 	})
+// })
+
+app.post('/forums', function(req, res){
+db.get('select * from users where user_name = ? AND password = ?', req.body.user, req.body.password, function(err, name){
+			console.log(name)
+			if (name === undefined){
+				db.run('INSERT INTO users (user_name, password) VALUES (?,?)',req.body.user, req.body.password, function(err){
 					if (err){
 						throw err
-					}else {
-						res.redirect('/forums')
-					}	
+					}else{
+						db.run('INSERT INTO forums (forum_title, forum_content, user_id) VALUES (?,?,?)', req.body.title, req.body.content, this.lastID, function(err){
+							if (err){
+								throw err
+							} else {
+								res.redirect('/forums/#bottom')
+							}
+						})
+					}
+				})
+			}else{
+				db.run('INSERT INTO forums (forum_title, forum_content, user_id) VALUES (?,?,?)', req.body.title, req.body.content, name.user_id, function(err){
+					if (err){
+						throw err
+
+					}else { 
+						res.redirect('/forums/#bottom')
+				}
 			})
-		}		
+		}
 	})
-})
+
+
+
 
 
 
 app.get('/forums/:id', function(req, res){
 	var id = req.params.id
-	db.get('SELECT * FROM forums JOIN users ON forums.user_id = users.user_id WHERE forums.forum_id=?', id, function(err, data){
-	//console.log(data)
-		if (err){
-			throw err
-		}else {
-			db.all('select * from comments JOIN users on users.user_id = comments.user_id WHERE forum_id=?', id, function(err, comments){
-	//console.log(comments)
-				if (err){
-					throw err
-				}else {			
-					db.get('SELECT count(*) AS num FROM comments WHERE forum_id=?', id, function(err, count){
-						if (err){
-							throw err
-						}else {
-	//console.log(count)
-							res.render('show.ejs', {data: data, comments: comments, count: count})
-						}
-					})
-				}		
-			})
-		}
+		db.get('SELECT * FROM forums JOIN users ON forums.user_id = users.user_id WHERE forums.forum_id=?', id, function(err, data){
+		//console.log(data)
+			if (err){
+				throw err
+			}else {
+				db.all('select * from comments JOIN users on users.user_id = comments.user_id WHERE forum_id=?', id, function(err, comments){
+		//console.log(comments)
+					if (err){
+						throw err
+					}else {			
+						db.get('SELECT count(*) AS num FROM comments WHERE forum_id=?', id, function(err, count){
+							if (err){
+								throw err
+							}else {
+		//console.log(count)
+								res.render('show.ejs', {data: data, comments: comments, count: count})
+							}
+						})
+					}		
+				})
+			}
+		})
 	})
 })
 
