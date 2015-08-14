@@ -168,13 +168,13 @@ app.post('/comments', function(req, res){
 ////increment vote count
 app.post('/vote', function(req, res){
 	db.get('SELECT up_vote AS num FROM forums WHERE forum_id = ?', req.body.forum_id, function(err, count){
-		console.log(count)
+//		console.log(count)
 		if (count.num === undefined){
 			count = 0
 			var add = count.num += 1
 		}else {
 			var add = count.num += 1
-			console.log(add)
+//			console.log(add)
 		}
 			db.run('UPDATE forums SET up_vote =? WHERE forum_id = ?', add, req.body.forum_id, function(err){
 				if (err){
