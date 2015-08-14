@@ -71,8 +71,7 @@ app.get('/forums/:id', function(req, res){
 	//console.log(comments)
 				if (err){
 					throw err
-				}else {
-////count returning as object				
+				}else {			
 					db.get('SELECT count(*) AS num FROM comments WHERE forum_id=?', id, function(err, count){
 						if (err){
 							throw err
@@ -100,9 +99,8 @@ app.delete('/forums/:id', function(req, res){
 
 //// post comments to db
 app.post('/comments', function(req, res){
-	var id = parseInt(req.body.f_id)
+	var id = parseInt(req.body.forum_id)
 	//console.log(id)
-
 
 		db.run('INSERT INTO users (user_name, password) VALUES (?,?)',req.body.user, req.body.password, function(err){
 			if (err){
@@ -110,7 +108,6 @@ app.post('/comments', function(req, res){
 			}else{
 
 				db.run('INSERT INTO comments (forum_id, comment_content, user_id) VALUES (?,?,?)', id, req.body.comment, this.lastID, function(err){
-	//console.log(req.body.f_id)
 					if (err){
 						throw err
 
@@ -123,11 +120,35 @@ app.post('/comments', function(req, res){
 })
 
 
+////increment vote count
+app.post('/vote', function(req, res){
+	db.get('SELECT up_vote AS num FROM forums WHERE forum_id = ?', req.body.forum_id, function(err, count){
+		console.log(count)
+		if (count.num === undefined){
+			count = 0
+			var add = count.num += 1
+		}else {
+			var add = count.num += 1
+			console.log(add)
+		}
+			db.run('UPDATE forums SET up_vote =? WHERE forum_id = ?', add, req.body.forum_id, function(err){
+				if (err){
+					throw err
+				}else {
+					res.redirect('/forums')
+				}
+			})
+		
+	})
+})
 
 
 
-///// if statements for when a user name exists
-///// vote button
+
+
+
+///// *** TO DO *** //////
+///// if statements for when a user name/password already exist
 
 
 

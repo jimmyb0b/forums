@@ -16,7 +16,6 @@ CREATE TABLE forums(
 	forum_title TEXT,
 	forum_content TEXT,
 	up_vote INTEGER,
-	comment_count INTEGER,
 	FOREIGN KEY (user_id) REFERENCES users(id)
 	);
 
