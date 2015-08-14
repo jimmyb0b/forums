@@ -7,19 +7,13 @@ var bodyParser = require('body-parser')
 var urlencodedBodyParser = bodyParser.urlencoded({extended:false})
 var sqlite3 = require('sqlite3')
 var db = new sqlite3.Database('forums.db')
-var dotenv = require('dotenv').load();
-var $ = require('jquery')
+
 
 
 app.use(urlencodedBodyParser)
 app.use(methodOverride('_method'))
 app.set('views_engine', 'ejs')
 app.use(express.static(__dirname + '/views'))
-
-// console.log(dotenv.password)
-// console.log(dotenv.username)
-
-
 
 
 
@@ -30,7 +24,7 @@ app.get('/', function(req, res){
 
 //// get all forums posts and post to list page
 app.get('/forums', function (req, res){
-	db.all('SELECT * FROM forums', function(err, rows){
+	db.all('SELECT * FROM forums JOIN users ON users.user_id = forums.user_id', function(err, rows){
 		if (err){
 			throw err
 		}else{ 
@@ -65,46 +59,25 @@ app.post('/forums', function(req, res){
 })
 
 
-// //// get forum, comment, user info and post to page
-// app.get('/forums/:id', function(req, res){
-// 	var id = parseInt(req.params.id)
-// 	db.all('SELECT forums.forum_title AS f_title, forums.forum_content AS f_content, comments.comment_content AS c_content, forums.id AS f_id, users.user_name AS name FROM forums LEFT JOIN comments ON forums.id = comments.forum_id LEFT JOIN users ON comments.user_id = users.id WHERE forums.id=?', id, function(err, data){
-// console.log(data)
-// 			if (err){
-// 				throw err
-// 			}else {
-// ////count returning as object				
-// 				db.all('SELECT count(*) FROM comments WHERE forum_id=?', id, function(err, count){
-// 				if (err){
-// 					throw err
-// 				}else {
-// 					console.log('count' + count)
-// 					res.render('show.ejs', {data:data, count: count})
-// 			}		
-// 		})
-// 	}
-// })
-// })
-
-
 
 app.get('/forums/:id', function(req, res){
 	var id = req.params.id
-	db.all('SELECT * FROM forums JOIN users ON forums.user_id = users.user_id WHERE forums.forum_id=?', id, function(err, data){
-		console.log(data)
+	db.get('SELECT * FROM forums JOIN users ON forums.user_id = users.user_id WHERE forums.forum_id=?', id, function(err, data){
+	//console.log(data)
 		if (err){
 			throw err
 		}else {
-			db .all('select * from comments JOIN users on users.user_id = comments.user_id WHERE forum_id=?', id, function(err, comments){
+			db.all('select * from comments JOIN users on users.user_id = comments.user_id WHERE forum_id=?', id, function(err, comments){
+	//console.log(comments)
 				if (err){
 					throw err
 				}else {
-	////count returning as object				
-					db.get('SELECT count(*) FROM comments WHERE forum_id=?', id, function(err, count){
+////count returning as object				
+					db.get('SELECT count(*) AS num FROM comments WHERE forum_id=?', id, function(err, count){
 						if (err){
 							throw err
 						}else {
-							console.log('count' + count)
+	//console.log(count)
 							res.render('show.ejs', {data: data, comments: comments, count: count})
 						}
 					})
@@ -128,14 +101,16 @@ app.delete('/forums/:id', function(req, res){
 //// post comments to db
 app.post('/comments', function(req, res){
 	var id = parseInt(req.body.f_id)
-//console.log(id)	
+	//console.log(id)
+
+
 		db.run('INSERT INTO users (user_name, password) VALUES (?,?)',req.body.user, req.body.password, function(err){
 			if (err){
 				res.redirect('/forums/'+id)
 			}else{
 
 				db.run('INSERT INTO comments (forum_id, comment_content, user_id) VALUES (?,?,?)', id, req.body.comment, this.lastID, function(err){
-//					console.log(req.body.f_id)
+	//console.log(req.body.f_id)
 					if (err){
 						throw err
 
@@ -153,8 +128,7 @@ app.post('/comments', function(req, res){
 
 ///// if statements for when a user name exists
 ///// vote button
-///// comment count
-///// why is name returning null?
+
 
 
 

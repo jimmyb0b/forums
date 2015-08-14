@@ -23,9 +23,9 @@
 	<br><br>
 
 
-		<h2><%= data[0].forum_title %></h2>
-		<h5>Created by: <%= data[0].user_name %> </h5>
-		<p><%= data[0].forum_content %></p>
+		<h2><%= data.forum_title %></h2>
+		<h5>Created by: <%= data.user_name %> </h5>
+		<p><%= data.forum_content %></p>
 <br><br>
 			<form action="/comments" method="POST" class="pure-form pure-form-aligned">
 				<fieldset>
@@ -52,10 +52,10 @@
 
 
 <br><br><br>
-<h3>Commments: <%= count.count %></h3>
+<h3>Commments: <%= count.num %></h3>
 	<%comments.forEach(function(comment){ %>
-		<p><%=comment.c_content%></p>
-		<p> <%= comment.name %> </p>
+		<p><%=comment.comment_content%></p>
+		<p> <%= comment.user_name %> </p>
 		<br>
 
 	<% }) %>
