@@ -9,42 +9,45 @@
 
 </head>
 <body>
-	<div class="header">
-        <div class="pure-menu pure-menu-horizontal">
-            <a class="pure-menu-heading" href="">The Heights And The Slope</a>
-
-            <ul class="pure-menu-list">
-                <li class="pure-menu-item pure-menu-selected"><a href="/forums" class="pure-menu-link">Thread List</a></li>
-                <li class="pure-menu-item"><a href="/forums/new" class="pure-menu-link">Create New Thread</a></li>
+	<div class="toplist">
+    <div class="pure-menu pure-menu-horizontal">
+      <a class="pure-menu-heading" href="">The Heights And The Slope</a>
+      	<ul class="pure-menu-list">
+        	<li class="pure-menu-item"><a href="/forums" class="pure-menu-link">Thread List</a></li>
+          <li class="pure-menu-item"><a href="/forums/new" class="pure-menu-link">Create New Thread</a></li>
                 
-            </ul>
-        </div>
+        </ul>
     </div>
-	<br><br>
+  </div>
+<br><br>
 
 
-
-	<a href="/forums/new">Create a new thread</a>
 	<br>
-	
-	<%Object.keys(data).forEach(function(key){ %>
-		<h2>
-		<a href="/forums/<%=data[key].forum_id%>">
-			<%= data[key].forum_title%>
-		</a>
-		</h2> 
-		<h5>Posted by: <%= data[key].user_name %></h5>
-		<form action="/vote" method="POST">
-			<input class="hidden" type="text" name="forum_id" value="<%=data[key].forum_id%>">
-			<% if (data[key].up_vote > 0){ %>
-				<h5> Vote Count: <%= data[key].up_vote %> 
-			<% } %>
-			<br>
-			<button>Vote</button>
-		</form>
-	<br>
-	<% }) %>
-	<a name="bottom"></a>
+	<div class="content">	
+		<%Object.keys(data).forEach(function(key){ %>
+			<h2>
+			<a href="/forums/<%=data[key].forum_id%>">
+				<%= data[key].forum_title%>
+			</a>
+			</h2> 
+			<h5>Posted by: <a href="/forums/<%=data[key].user_name%>"><%=data[key].user_name%></a>
+			</h5>
+			<form action="/vote" method="POST">
+				<input class="hidden" type="text" name="forum_id" value="<%=data[key].forum_id%>">
+				<% if (data[key].up_vote > 0){ %>
+					<h5> Vote Count: <%= data[key].up_vote %> 
+				<% } %>
+				<br>
+				<button>Vote</button>
+			</form>
+		<br>
+		<% }) %>
+		<a name="bottom"></a>
+		<br><br><br>
+		<a href="/forums/new">Create a new thread</a>
+	</div>
+
+
 </body>
 </html>
 

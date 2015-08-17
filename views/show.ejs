@@ -9,26 +9,30 @@
 
 </head>
 <body>
-	<div class="header">
-        <div class="pure-menu pure-menu-horizontal">
-            <a class="pure-menu-heading" href="">The Heights And The Slope</a>
-
-            <ul class="pure-menu-list">
-                <li class="pure-menu-item pure-menu-selected"><a href="/forums" class="pure-menu-link">Thread List</a></li>
-                <li class="pure-menu-item"><a href="/forums/new" class="pure-menu-link">Create New Thread</a></li>
+	<div class="toplist">
+    <div class="pure-menu pure-menu-horizontal">
+      <a class="pure-menu-heading" href="">The Heights And The Slope</a>
+      	<ul class="pure-menu-list">
+        	<li class="pure-menu-item"><a href="/forums" class="pure-menu-link">Thread List</a></li>
+          <li class="pure-menu-item"><a href="/forums/new" class="pure-menu-link">Create New Thread</a></li>
                 
-            </ul>
-        </div>
+        </ul>
     </div>
-	<br><br>
+  </div>
+<br><br>
 
+
+
+
+
+	<div class="content">
 
 		<h2><%= data.forum_title %></h2>
 		<h5>Created by: <%= data.user_name %> </h5>
 		<p><%= data.forum_content %></p>
 <br><br>
 			<form action="/comments" method="POST" class="pure-form pure-form-aligned">
-				<fieldset>
+				
 					<div class="pure-control-group">
 						<label for="user">User Name</label>
 						<input type=" text" name="user" placeholder="User Name">
@@ -45,7 +49,7 @@
 					<input class="hidden" type="text" name="forum_id" value="<%=data.forum_id%>">
 					<br><br>
 					<button type="submit" class="pure-button pure-button-primary">Submit</button>
-				</fieldset>
+				
 			</form>  
 	
 
@@ -63,5 +67,11 @@
 	<br><br>
 	<a href="/forums">Back to forums list</a>
 	<a name="bottom"></a>
+
+
+</div>	
+
+
 </body>
 </html>
+

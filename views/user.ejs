@@ -2,16 +2,40 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>User Posts</title>
 </head>
 <body>
-	<h1>Create New User</h1>
-		<form action="/user" method="PUT">
-			<input type="text" name="user" placeholder="User Name">
-			<input type="password" name="password" placeholder="Password">
+	
+	<div class="toplist">
+    <div class="pure-menu pure-menu-horizontal">
+      <a class="pure-menu-heading" href="">The Heights And The Slope</a>
+      	<ul class="pure-menu-list">
+        	<li class="pure-menu-item"><a href="/forums" class="pure-menu-link">Thread List</a></li>
+          <li class="pure-menu-item"><a href="/forums/new" class="pure-menu-link">Create New Thread</a></li>
+                
+        </ul>
+    </div>
+  </div>
+<br><br>
 
-			<button>Submit</button>
 
-		</form>
+<div>
+
+		<%Object.keys(data).forEach(function(key){%>
+	<h2>Posts by <%= data[key].user_name %>:</h2>
+		<h4><%= data[key].forum_title %> </h2>
+		
+
+	<% }) %>
+
+
+</div>
+
+<br><br>
+<a href="/forums">Back to forums list</a>
+<a name="bottom"></a>
+
+
+
 </body>
 </html>

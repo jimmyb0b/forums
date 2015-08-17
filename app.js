@@ -7,6 +7,7 @@ var bodyParser = require('body-parser')
 var urlencodedBodyParser = bodyParser.urlencoded({extended:false})
 var sqlite3 = require('sqlite3')
 var db = new sqlite3.Database('forums.db')
+var cookieSession = require('cookie-session')
 
 
 
@@ -23,7 +24,7 @@ app.get('/', function(req, res){
 })
 
 //// get all forums posts and post to list page
-app.get('/forums', function (req, res){
+app.get('/forums', function(req, res){
 	db.all('SELECT * FROM forums JOIN users ON users.user_id = forums.user_id', function(err, rows){
 		if (err){
 			throw err
@@ -58,8 +59,11 @@ app.get('/forums/new', function(req,res){
 // 	})
 // })
 
+
+
+
 app.post('/forums', function(req, res){
-db.get('select * from users where user_name = ? AND password = ?', req.body.user, req.body.password, function(err, name){
+	db.get('select * from users where user_name = ? AND password = ?', req.body.user, req.body.password, function(err, name){
 			console.log(name)
 			if (name === undefined){
 				db.run('INSERT INTO users (user_name, password) VALUES (?,?)',req.body.user, req.body.password, function(err){
@@ -86,6 +90,7 @@ db.get('select * from users where user_name = ? AND password = ?', req.body.user
 			})
 		}
 	})
+})
 
 
 
@@ -95,7 +100,7 @@ db.get('select * from users where user_name = ? AND password = ?', req.body.user
 app.get('/forums/:id', function(req, res){
 	var id = req.params.id
 		db.get('SELECT * FROM forums JOIN users ON forums.user_id = users.user_id WHERE forums.forum_id=?', id, function(err, data){
-		//console.log(data)
+		console.log(data)
 			if (err){
 				throw err
 			}else {
@@ -117,7 +122,7 @@ app.get('/forums/:id', function(req, res){
 			}
 		})
 	})
-})
+
 
 
 app.put('/forums/:id', function(req, res){
@@ -188,7 +193,16 @@ app.post('/vote', function(req, res){
 })
 
 
-
+app.get('/forums/:user', function(req, res){
+	var name = req.params.user
+	db.get('SELECT * FROM forums JOIN users ON users.user_id = forums.user_id WHERE user_name = ?', name, function(err, data){
+		if (err){
+			throw err
+		}else{
+			res.render('user.ejs', {data:data})
+		}
+	})
+})
 
 
 
