@@ -74,10 +74,21 @@ app.post('/forums', function(req, res){
 })
 
 
+app.get('/user/:user', function(req, res){
+	var name = req.params.user
+	db.all('SELECT * FROM forums JOIN users ON users.user_id = forums.user_id WHERE user_name = ?', name, function(err, table){
+			console.log(table)
+		if (err){
+			throw err
+		}else{
+			res.render('user.ejs', {table:table})
+		}
+	})
+})
 
 
 app.get('/forums/:id', function(req, res){
-	var id = req.params.id
+	var id = parseInt(req.params.id)
 		db.get('SELECT * FROM forums JOIN users ON forums.user_id = users.user_id WHERE forums.forum_id=?', id, function(err, data){
 		console.log(data)
 			if (err){
@@ -104,14 +115,14 @@ app.get('/forums/:id', function(req, res){
 
 
 
-app.put('/forums/:id', function(req, res){
-	//// update post... maybe
-})
+// app.put('/forums/:id', function(req, res){
+// 	//// update post... maybe
+// })
 
 
-app.delete('/forums/:id', function(req, res){
-	//// delete that post super user power
-})
+// app.delete('/forums/:id', function(req, res){
+// 	//// delete that post super user power
+// })
 
 
 //// post comments to db
@@ -172,16 +183,6 @@ app.post('/vote', function(req, res){
 })
 
 
-app.get('/forums/:user', function(req, res){
-	var name = req.params.user
-	db.get('SELECT * FROM forums JOIN users ON users.user_id = forums.user_id WHERE user_name = ?', name, function(err, data){
-		if (err){
-			throw err
-		}else{
-			res.render('user.ejs', {table:table})
-		}
-	})
-})
 
 
 

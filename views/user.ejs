@@ -3,6 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>User Posts</title>
+		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+	<link rel="stylesheet" href="style.css">
 
 
 <style media="screen" type="text/css">
@@ -56,10 +58,10 @@ button{
 
 
 <div>
-
+console.log(table)
+	<h2>Posts by <%= table[0].user_name %>:</h2>
 		<%Object.keys(table).forEach(function(key){%>
-	<h2>Posts by <%= table[key].user_name %>:</h2>
-		<h4><%= table[key].forum_title %> </h2>
+		<h4><a href="/forums/<%= table[key].forum_id %>"><%= table[key].forum_title %></a> </h2>
 		
 
 	<% }) %>
