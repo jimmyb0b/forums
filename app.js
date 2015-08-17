@@ -41,25 +41,6 @@ app.get('/forums/new', function(req,res){
 })
 
 
-// //// post new forum to db
-// app.post('/forums', function(req, res){
-// 	db.run('INSERT INTO users (user_name, password) VALUES (?,?)', req.body.user, req.body.password, function(err){
-// 			if (err){
-// 				res.redirect('/forums/new/#alert')
-// 			}else{
-
-// 				db.run('INSERT INTO forums (forum_title, forum_content, user_id) VALUES (?,?,?)', req.body.title, req.body.content, this.lastID, function(err){
-// 					if (err){
-// 						throw err
-// 					}else {
-// 						res.redirect('/forums')
-// 					}	
-// 			})
-// 		}		
-// 	})
-// })
-
-
 
 
 app.post('/forums', function(req, res){
@@ -68,7 +49,7 @@ app.post('/forums', function(req, res){
 			if (name === undefined){
 				db.run('INSERT INTO users (user_name, password) VALUES (?,?)',req.body.user, req.body.password, function(err){
 					if (err){
-						throw err
+						res.redirect('/forums')
 					}else{
 						db.run('INSERT INTO forums (forum_title, forum_content, user_id) VALUES (?,?,?)', req.body.title, req.body.content, this.lastID, function(err){
 							if (err){
@@ -91,8 +72,6 @@ app.post('/forums', function(req, res){
 		}
 	})
 })
-
-
 
 
 
@@ -145,7 +124,7 @@ app.post('/comments', function(req, res){
 			if (name === undefined){
 				db.run('INSERT INTO users (user_name, password) VALUES (?,?)',req.body.user, req.body.password, function(err){
 					if (err){
-						throw err
+						res.redirect('/forums/'+id)
 					}else{
 						db.run('INSERT into comments (forum_id, comment_content, user_id) VALUES (?,?,?)', id, req.body.comment, this.lastID, function(err){
 							if (err){
@@ -199,7 +178,7 @@ app.get('/forums/:user', function(req, res){
 		if (err){
 			throw err
 		}else{
-			res.render('user.ejs', {data:data})
+			res.render('user.ejs', {table:table})
 		}
 	})
 })

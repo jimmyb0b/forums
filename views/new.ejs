@@ -7,6 +7,41 @@
 	<link rel="stylesheet" href="style.css">
 
 
+<style media="screen" type="text/css">
+body{
+	background-color: #DCDBDB;
+}
+
+.content{
+	padding:20px;	
+
+}
+
+#bg{
+	position: fixed;
+}
+
+.hidden{
+	display:none;
+}
+
+.toplist{
+	position: relative;
+	font-color: black;
+	background: linear-gradient(white, white, #DCDBDB);
+}	
+
+button{
+  color: white;
+  background-color: green;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  width: 150px;
+  margin: 10px
+}
+</style>
+
+
 </head>
 <body>
 
@@ -23,6 +58,7 @@
 <br><br>
 
 
+<div class="content">
 <form action="/forums" method="POST" class="pure-form pure-form-aligned">
     <fieldset>
         <div class="pure-control-group">
@@ -41,10 +77,10 @@
 
         <div class="pure-control-group">
             <label for="content">Thread Content</label>
-            <textarea name="content" placeholder="Thread Content"></textarea>
+            <textarea name="content" rows="6" cols="35" placeholder="Thread Content"></textarea>
         </div>
 					<br>
-            <button type="submit" class="pure-button pure-button-primary">Submit</button>
+            <button>Submit </button>
         </div>
     </fieldset>
 </form>
@@ -54,6 +90,9 @@
 <a href="/forums">Back to Forums Page</a>
 
 <a name="bottom"></a>
+
+</div>
+
 
 </body>
 </html>

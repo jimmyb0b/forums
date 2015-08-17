@@ -3,6 +3,42 @@
 <head>
 	<meta charset="UTF-8">
 	<title>User Posts</title>
+
+
+<style media="screen" type="text/css">
+body{
+	background-color: #DADADA;
+}
+
+.content{
+	padding:20px;	
+
+}
+
+#bg{
+	position: fixed;
+}
+
+.hidden{
+	display:none;
+}
+
+.toplist{
+	position: relative;
+	font-color: black;
+	background: linear-gradient(white, white, #DADADA);
+}	
+
+button{
+  color: white;
+  background-color: green;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  width: 150px;
+  margin: 10px;
+}
+</style>
+
 </head>
 <body>
 	
@@ -21,9 +57,9 @@
 
 <div>
 
-		<%Object.keys(data).forEach(function(key){%>
-	<h2>Posts by <%= data[key].user_name %>:</h2>
-		<h4><%= data[key].forum_title %> </h2>
+		<%Object.keys(table).forEach(function(key){%>
+	<h2>Posts by <%= table[key].user_name %>:</h2>
+		<h4><%= table[key].forum_title %> </h2>
 		
 
 	<% }) %>
