@@ -57,8 +57,7 @@ button{
 <br><br>
 
 
-<div>
-console.log(table)
+<div class="content">
 	<h2>Posts by <%= table[0].user_name %>:</h2>
 		<%Object.keys(table).forEach(function(key){%>
 		<h4><a href="/forums/<%= table[key].forum_id %>"><%= table[key].forum_title %></a> </h2>
